@@ -1,8 +1,8 @@
 import { Text, Tooltip } from "@chakra-ui/react";
 import { WarningIcon } from "@chakra-ui/icons";
-import { formatUnits } from "viem";
 
 import { Result, Token } from "src/domain";
+import { formatBalance } from "src/utils/balances";
 
 type BalanceProps = {
   balance: Result<bigint>;
@@ -15,6 +15,6 @@ export const Balance = ({ balance, token }: BalanceProps): JSX.Element => {
       <WarningIcon boxSize={5} color="red.500" />
     </Tooltip>
   ) : (
-    <Text>{formatUnits(balance.result, token.decimals)}</Text>
+    <Text>{formatBalance(balance.result, token)}</Text>
   );
 };
