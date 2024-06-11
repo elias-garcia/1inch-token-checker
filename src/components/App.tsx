@@ -1,12 +1,13 @@
+import { useState } from "react";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import { createPublicClient, http } from "viem";
+import { Hex, createPublicClient, http } from "viem";
 import { mainnet } from "viem/chains";
 
 import AddressForm from "src/components/AddressForm";
 import Header from "src/components/Header";
 import tokens from "src/assets/tokenlist.json";
-import { useState } from "react";
 import useMulticallBalances from "src/hooks/useMulticallBalances";
+import AccountBalancesTable from "src/components/AccountBalancesTable";
 
 const client = createPublicClient({
   chain: mainnet,
@@ -14,8 +15,8 @@ const client = createPublicClient({
 });
 
 const App = (): JSX.Element => {
-  const [address, setAddress] = useState<string>();
-  const { isLoading } = useMulticallBalances({
+  const [address, setAddress] = useState<Hex>();
+  const { isLoading, balances } = useMulticallBalances({
     client,
     tokens,
     address,
@@ -36,6 +37,7 @@ const App = (): JSX.Element => {
             </Text>
           </Flex>
           <AddressForm isButtonLoading={isLoading} onSubmit={setAddress} />
+          <AccountBalancesTable balances={balances} marginTop={32} />
         </Box>
       </Box>
     </>

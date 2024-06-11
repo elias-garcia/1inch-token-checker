@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
-import { isAddress } from "viem";
+import { Hex, isAddress } from "viem";
 
 type AddressFormProps = {
   isButtonLoading: boolean;
-  onSubmit: (address: string) => void;
+  onSubmit: (address: Hex) => void;
 };
 
 const AddressForm = ({ isButtonLoading, onSubmit }: AddressFormProps): JSX.Element => {
