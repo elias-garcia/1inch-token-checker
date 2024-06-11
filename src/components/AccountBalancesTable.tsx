@@ -24,7 +24,7 @@ const AccountBalancesTable = ({ balances, ...rest }: AccountBalancesTableProps) 
               <Tr key={tokenBalance.token.address}>
                 <Td>
                   <Flex alignItems="center" gap={4}>
-                    <Avatar src={tokenBalance.token.logoURI} name={tokenBalance.token.name} size="sm" />
+                    <Avatar src={tokenBalance.token.logoURI} bg="gray.100" name={tokenBalance.token.name} size="sm" />
                     <Text>
                       {tokenBalance.token.name}{" "}
                       <Text as="span" color="gray.500">

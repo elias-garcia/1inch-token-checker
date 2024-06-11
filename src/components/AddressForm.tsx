@@ -30,7 +30,7 @@ const AddressForm = ({ isButtonLoading, onSubmit, ...rest }: AddressFormProps): 
   return (
     <Box width="100%" display="flex" flexDirection="column" {...rest}>
       <form onSubmit={handleFormSubmission}>
-        <Box bg="gray.50" borderWidth="1px" borderRadius="lg" overflow="hidden" padding={8}>
+        <Box bg="gray.100" borderWidth="1px" borderRadius="lg" overflow="hidden" padding={8}>
           <Flex alignItems="center">
             <Input
               value={address}
