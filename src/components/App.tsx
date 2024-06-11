@@ -1,9 +1,26 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
-import AddressForm from "src/components/AddressForm";
+import { createPublicClient, http } from "viem";
+import { mainnet } from "viem/chains";
 
+import AddressForm from "src/components/AddressForm";
 import Header from "src/components/Header";
+import tokens from "src/assets/tokenlist.json";
+import { useState } from "react";
+import useMulticallBalances from "src/hooks/useMulticallBalances";
+
+const client = createPublicClient({
+  chain: mainnet,
+  transport: http(),
+});
 
 const App = (): JSX.Element => {
+  const [address, setAddress] = useState<string>();
+  const { isLoading } = useMulticallBalances({
+    client,
+    tokens,
+    address,
+  });
+
   return (
     <>
       <Header />
@@ -18,7 +35,7 @@ const App = (): JSX.Element => {
               smart contract allowed to spend.
             </Text>
           </Flex>
-          <AddressForm onSubmit={(c) => console.log(c)} />
+          <AddressForm isButtonLoading={isLoading} onSubmit={setAddress} />
         </Box>
       </Box>
     </>

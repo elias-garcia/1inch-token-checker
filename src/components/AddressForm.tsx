@@ -3,10 +3,11 @@ import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
 import { isAddress } from "viem";
 
 type AddressFormProps = {
+  isButtonLoading: boolean;
   onSubmit: (address: string) => void;
 };
 
-const AddressForm = ({ onSubmit }: AddressFormProps): JSX.Element => {
+const AddressForm = ({ isButtonLoading, onSubmit }: AddressFormProps): JSX.Element => {
   const [address, setAddress] = useState<string>("");
   const [isAddressValid, setIsAddressValid] = useState<boolean>();
 
@@ -38,7 +39,7 @@ const AddressForm = ({ onSubmit }: AddressFormProps): JSX.Element => {
             size="lg"
             onChange={handleInputChange}
           />
-          <Button type="submit" colorScheme="teal" size="lg" marginLeft={4}>
+          <Button type="submit" colorScheme="teal" size="lg" marginLeft={4} isLoading={isButtonLoading}>
             Check
           </Button>
         </Flex>
