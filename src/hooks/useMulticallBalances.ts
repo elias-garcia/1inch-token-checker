@@ -8,17 +8,26 @@ import erc20Abi from "src/abis/erc20";
 
 type UseMulticalllBalancesParams = {
   client: PublicClient;
-  tokens: Token[];
+  tokens?: Token[];
   address?: Hex;
 };
 
-const useMulticallBalances = ({ client, tokens, address }: UseMulticalllBalancesParams) => {
-  const [isLoading, setIsLoading] = useState(false);
-  const [balances, setBalances] = useState<AccountBalances>();
+type UseMulticalllBalancesReturnType = {
+  areAccountBalancesLoading: boolean;
+  accountBalances?: AccountBalances;
+};
+
+const useMulticallBalances = ({
+  client,
+  tokens,
+  address,
+}: UseMulticalllBalancesParams): UseMulticalllBalancesReturnType => {
+  const [areAccountBalancesLoading, setAreAccountBalancesLoading] = useState<boolean>(false);
+  const [accountBalances, setAccountBalances] = useState<AccountBalances>();
 
   useEffect(() => {
-    if (address) {
-      setIsLoading(true);
+    if (tokens && address) {
+      setAreAccountBalancesLoading(true);
 
       client
         .multicall({
@@ -26,7 +35,7 @@ const useMulticallBalances = ({ client, tokens, address }: UseMulticalllBalances
             ...tokens.map(
               (token) =>
                 ({
-                  address: token.address as Hex,
+                  address: token.address,
                   abi: erc20Abi,
                   functionName: "balanceOf",
                   args: [address],
@@ -35,7 +44,7 @@ const useMulticallBalances = ({ client, tokens, address }: UseMulticalllBalances
             ...tokens.map(
               (token) =>
                 ({
-                  address: token.address as Hex,
+                  address: token.address,
                   abi: erc20Abi,
                   functionName: "allowance",
                   args: [address, ROUTER_CONTRACT_ADDRESS],
@@ -46,7 +55,7 @@ const useMulticallBalances = ({ client, tokens, address }: UseMulticalllBalances
               abi: multicall3Abi,
               functionName: "getEthBalance",
               args: [address],
-            },
+            } as const,
           ],
           multicallAddress: MULTICALL_CONTRACT_ADDRESS,
         })
@@ -69,7 +78,7 @@ const useMulticallBalances = ({ client, tokens, address }: UseMulticalllBalances
           });
           const ethBalanceResult = results[results.length - 1];
 
-          setBalances({
+          setAccountBalances({
             tokens: tokenBalances,
             eth:
               ethBalanceResult === undefined
@@ -81,17 +90,18 @@ const useMulticallBalances = ({ client, tokens, address }: UseMulticalllBalances
           console.error(error);
         })
         .finally(() => {
-          setIsLoading(false);
+          setAreAccountBalancesLoading(false);
         });
     }
   }, [address, client, tokens]);
 
-  return useMemo(() => {
-    return {
-      isLoading,
-      balances,
-    };
-  }, [isLoading, balances]);
+  return useMemo(
+    () => ({
+      accountBalances,
+      areAccountBalancesLoading,
+    }),
+    [areAccountBalancesLoading, accountBalances]
+  );
 };
 
 export default useMulticallBalances;

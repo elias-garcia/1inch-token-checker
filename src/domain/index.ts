@@ -1,3 +1,5 @@
+import { Hex } from "viem";
+
 export type SuccessResult<T> = {
   status: "success";
   result: T;
@@ -11,7 +13,7 @@ export type ErrorResult = {
 export type Result<T> = SuccessResult<T> | ErrorResult;
 
 export type Token = {
-  address: string;
+  address: Hex;
   name: string;
   symbol: string;
   decimals: number;
