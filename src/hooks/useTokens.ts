@@ -28,6 +28,9 @@ const useTokens = (): UseTokensReturnType => {
           setTokensError(parsedTokens.error);
         }
       })
+      .catch((err) => {
+        setTokensError(err);
+      })
       .finally(() => {
         setAreTokensLoading(false);
       });
