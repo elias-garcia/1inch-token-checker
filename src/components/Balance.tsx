@@ -11,8 +11,8 @@ type BalanceProps = {
 
 export const Balance = ({ balance, token }: BalanceProps): JSX.Element => {
   return balance.status === "failure" ? (
-    <Tooltip label={balance.error.name}>
-      <WarningIcon w={8} h={8} color="red.500" />
+    <Tooltip label={balance.error.message}>
+      <WarningIcon boxSize={5} color="red.500" />
     </Tooltip>
   ) : (
     <Text>{formatUnits(balance.result, token.decimals)}</Text>
