@@ -20,6 +20,21 @@ const AccountBalancesTable = ({ balances, ...rest }: AccountBalancesTableProps) 
             </Tr>
           </Thead>
           <Tbody>
+            <Td>
+              <Flex alignItems="center" gap={4}>
+                <Avatar bg="gray.500" name="Ethereum" size="sm" />
+                <Text>
+                  Ethereum{" "}
+                  <Text as="span" color="gray.500">
+                    (ETH)
+                  </Text>
+                </Text>
+              </Flex>
+            </Td>
+            <Td isNumeric>
+              <Balance balance={balances.eth} />
+            </Td>
+            <Td isNumeric>-</Td>
             {balances.tokens.map((tokenBalance) => (
               <Tr key={tokenBalance.token.address}>
                 <Td>
@@ -34,10 +49,10 @@ const AccountBalancesTable = ({ balances, ...rest }: AccountBalancesTableProps) 
                   </Flex>
                 </Td>
                 <Td isNumeric>
-                  <Balance balance={tokenBalance.balance} token={tokenBalance.token} />
+                  <Balance balance={tokenBalance.balance} decimals={tokenBalance.token.decimals} />
                 </Td>
                 <Td isNumeric>
-                  <Balance balance={tokenBalance.allowance} token={tokenBalance.token} />
+                  <Balance balance={tokenBalance.allowance} decimals={tokenBalance.token.decimals} />
                 </Td>
               </Tr>
             ))}

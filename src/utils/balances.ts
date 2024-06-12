@@ -1,12 +1,11 @@
 import { formatUnits } from "viem";
 
-import { Token } from "src/domain";
-import { MAX_BALANCE_DECIMALS } from "src/constants";
+import { DEFAULT_DECIMALS, MAX_BALANCE_DECIMALS } from "src/constants";
 
-export const formatBalance = (balance: bigint, token: Token) => {
-  const formattedBalance = formatUnits(balance, token.decimals);
-  const [whole, decimals = ""] = formattedBalance.split(".");
-  const trimmed = decimals.length > MAX_BALANCE_DECIMALS ? decimals.slice(0, MAX_BALANCE_DECIMALS) : decimals;
+export const formatBalance = (balance: bigint, decimals: number = DEFAULT_DECIMALS) => {
+  const formattedBalance = formatUnits(balance, decimals);
+  const [wholePart, decimalPart = ""] = formattedBalance.split(".");
+  const trimmed = decimalPart.length > MAX_BALANCE_DECIMALS ? decimalPart.slice(0, MAX_BALANCE_DECIMALS) : decimalPart;
 
-  return trimmed === "" || trimmed === "0" ? whole : `${whole}.${trimmed}`;
+  return trimmed === "" || trimmed === "0" ? wholePart : `${wholePart}.${trimmed}`;
 };
