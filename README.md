@@ -11,6 +11,10 @@ This repo provides a simple implementation to display user balances and check th
 - Viem
 - Zod
 
+## Production deployment
+
+- https://1inch-token-checker.vercel.app
+
 ## Running the project locally
 
 1. Clone the repo
